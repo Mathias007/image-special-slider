@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ".slider__image-container--second img"
     );
     let dragging = false;
-    const imagesContainerLeftOffset = imagesContainerEl.offsetLeft;
+    let imagesContainerLeftOffset;
     const img1ContainerEl = document.querySelector(
         ".slider__image-container--first"
     );
@@ -44,15 +44,29 @@ document.addEventListener("DOMContentLoaded", () => {
             dragging = false;
         });
 
+        handleEl.addEventListener("touchstart", () => {
+            dragging = true;
+        });
+        handleEl.addEventListener("touchend", () => {
+            dragging = false;
+        });
+
         window.addEventListener("mousemove", () => {
             if (dragging) {
                 move(event.clientX);
+            }
+        });
+
+        window.addEventListener("touchmove", () => {
+            if (dragging) {
+                move(event.touches[0].clientX);
             }
         });
     }
 
     function adjustImagesSize() {
         imagesContainerWidth = imagesContainerEl.offsetWidth;
+        imagesContainerLeftOffset = imagesContainerEl.offsetLeft;
         img1El.getElementsByClassName.width = imagesContainerWidth + "px";
         img2El.getElementsByClassName.width = imagesContainerWidth + "px";
     }
